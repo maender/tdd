@@ -14,6 +14,20 @@ Tests à faire : partie avec que des lancers à 0
 '''
 
 def test_emptyGame():
-    scores = [(0, 0) for x in range(10)]
-    assert bowling_score(scores) == 0
+    frames = [[0, 0] for x in range(10)]
+    assert bowling_score(frames) == 0
+
+def test_GameWith10Pts():
+    frames = [[1, 0] for x in range(10)]
+    assert bowling_score(frames) == 10
+
+def test_GameWithOneSpareAtFisrtFrame():
+    frames = [[1, 0] for x in range(10)]
+    frames[0] = [9, 1]
+    assert bowling_score(frames) == 20
+
+def test_GameWithOneSpareAtLastFrame():
+    frames = [[1, 0] for x in range(10)]
+    frames[-1] = [9, 1, 0]
+    assert bowling_score(frames) == 19
     

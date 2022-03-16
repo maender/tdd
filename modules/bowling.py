@@ -1,8 +1,11 @@
 def handle_strike():
     pass
 
-def handle_spare():
-    pass
+def handle_spare(scores: list, frame: int):
+    try:
+        return 10 + scores[frame+1][0]
+    except:
+        return sum(scores[frame])
 
 def bowling_score(scores : list):
     '''
@@ -18,5 +21,13 @@ def bowling_score(scores : list):
     '''
 
     total = 0
+    for idx, score in enumerate(scores):
+        if sum(score) == 10:
+            if score[0] == 10:
+                pass
+            else:
+                total += handle_spare(scores, idx)
+        else:
+            total += sum(score)
 
     return total
