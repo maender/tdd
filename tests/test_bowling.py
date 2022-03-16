@@ -30,4 +30,29 @@ def test_GameWithOneSpareAtLastFrame():
     frames = [[1, 0] for x in range(10)]
     frames[-1] = [9, 1, 0]
     assert bowling_score(frames) == 19
-    
+
+def test_GameWithOneStrikeAtFirstFrame():
+    frames = [[1, 0] for x in range(10)]
+    frames[0] = [10, 0]
+    assert bowling_score(frames) == 20
+
+def test_GameWithOneStrikeAtLastFrame():
+    frames = [[1, 0] for x in range(10)]
+    frames[-1] = [10, 0, 0]
+    assert bowling_score(frames) == 19
+
+def test_GameWithOnlySpares():
+    frames = [[9, 1] for x in range(10)]
+    frames[-1] = [9, 1, 1]
+    assert bowling_score(frames) == 182
+
+def test_GameWith2StrickesInARowAtBegin():
+    frames = [[1, 0] for x in range(10)]
+    frames[0] = frames[1] = [10,0]
+    assert bowling_score(frames) == 40
+
+def test_GameWith2StrickesInARowAtEnd():
+    frames = [[1, 0] for x in range(10)]
+    frames[-1] = [10, 0]
+    frames[-2] = [10, 0, 0]
+    assert bowling_score(frames) == 38
