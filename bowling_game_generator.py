@@ -1,9 +1,10 @@
 import random
+import sys
 
-def game_generator():
+def game_generator(frames : int):
     out = list()
 
-    for i in range(10):
+    for i in range(frames):
         a = random.randint(0, 10)
         if i < 9:
             b = random.randint(0, 10 - a) if a < 10 else 0
@@ -20,4 +21,16 @@ def game_generator():
 
 
 if __name__ == '__main__':
-    print(game_generator())
+    args = sys.argv
+
+    frames = 10
+    if len(args) > 1:
+        try:
+            frames = int(args[1])
+            if frames not in range(1, 10):
+                print("Bad number of frames, generating with 10 frames")
+                frames = 10
+        except:
+            print("Number of frames must be an integer in [0...10], generating with 10 frames")
+            frames = 10
+    print(game_generator(frames))

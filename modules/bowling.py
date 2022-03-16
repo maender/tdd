@@ -1,37 +1,29 @@
-STRIKE = 10
-STRIKE_OR_SPARE = 10
+STRIKE = (10, 0)
+LAST_FRAME_ONLY_STRIKES = (10, 10, 10)
 
-is_strike_at_last_frame = lambda x : x == 9
-is_strike_or_spare = lambda x : sum(x) == 10
+STRIKE_SCORE = 10
+STRIKE_OR_SPARE_SCORE = 10
+
+is_strike_or_spare = lambda x, idx : idx < 9 and sum(x) == 10
 is_strike = lambda x : x[0] == 10
 
 def calculate_second_strike_bonus(next_throws : list, idx : int):
     total = 0
 
     try:
-        total = STRIKE + next_throws[idx + 2][0]
+        total = STRIKE_SCORE + next_throws[idx + 2][0]
     except:
-        total = STRIKE + next_throws[idx + 1][1]
-
-    return total
-
-def calculate_strike_bonus_at_regular_frame(next_throws : list, idx : int):
-    total = 0
-
-    if is_strike(next_throws[idx + 1]):
-        total += calculate_second_strike_bonus(next_throws, idx)
-    else:
-        total = sum(next_throws[idx + 1])
+        total = STRIKE_SCORE + next_throws[idx + 1][1]
 
     return total
 
 def calculate_strike_bonus(next_throws : list, idx : int):
     total = 0
 
-    if is_strike_at_last_frame(idx):
-        total = sum(next_throws[idx][1:])
+    if is_strike(next_throws[idx + 1]):
+        total += calculate_second_strike_bonus(next_throws, idx)
     else:
-        total = calculate_strike_bonus_at_regular_frame(next_throws, idx)
+        total = sum(next_throws[idx + 1])
 
     return total
 
@@ -55,7 +47,7 @@ def calculate_bonus(next_throws : list, idx : int, strike : bool):
 
     return total
 
-def bowling_score(scores : list):
+def bowling_score(frames : list):
     '''
     In:
     Scores is a list of 10 tuples (x, y)
@@ -69,9 +61,16 @@ def bowling_score(scores : list):
     '''
 
     total = 0
-    for idx, score in enumerate(scores):
-        if is_strike_or_spare(score):
-            total += STRIKE_OR_SPARE + calculate_bonus(scores, idx, is_strike(score))
-        else: total += sum(score)
+    for idx, frame in enumerate(frames):
+        if is_strike_or_spare(frame, idx):
+            total += STRIKE_OR_SPARE_SCORE + calculate_bonus(frames, idx, is_strike(frame))
+        else: total += sum(frame)
 
     return total
+
+def best_possible_score(frames : list):
+    for i in range(len(frames) + 1, 10):
+        frames.append(STRIKE)
+    frames.append(LAST_FRAME_ONLY_STRIKES)
+
+    return bowling_score(frames)
