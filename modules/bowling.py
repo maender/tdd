@@ -63,9 +63,9 @@ def bowling_score(frames : list):
 
     total = 0
     for idx, frame in enumerate(frames):
-        if end_of_unfinished_game(frames, idx):
-            break
-        elif is_strike_or_spare(frame, idx):
+        if is_strike_or_spare(frame, idx):
+            if end_of_unfinished_game(frames, idx):
+                break
             total += STRIKE_OR_SPARE_SCORE + calculate_bonus(frames, idx, is_strike(frame))
         else: total += sum(frame)
 
