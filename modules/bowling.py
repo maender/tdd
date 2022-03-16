@@ -1,18 +1,59 @@
+STRIKE = 10
+STRIKE_OR_SPARE = 10
+
+is_strike_at_last_frame = lambda x : x == 9
 is_strike_or_spare = lambda x : sum(x) == 10
 is_strike = lambda x : x[0] == 10
 
-def handle_strike(scores: list, frame: int):
-    if frame == 9: return sum(scores[frame])
-    elif frame == 8: return 10 + scores[frame + 1][0] + scores[frame + 1][1]
-    else:
-        if is_strike(scores[frame + 1]):
-            return 20 + scores[frame + 2][0]
-        else:
-            return 10 + sum(scores[frame + 1])
+def calculate_second_strike_bonus(next_throws : list, idx : int):
+    total = 0
 
-def handle_spare(scores: list, frame: int):
-    try: return 10 + scores[frame+1][0]
-    except: return sum(scores[frame])
+    try:
+        total = STRIKE + next_throws[idx + 2][0]
+    except:
+        total = STRIKE + next_throws[idx + 1][1]
+
+    return total
+
+def calculate_strike_bonus_at_regular_frame(next_throws : list, idx : int):
+    total = 0
+
+    if is_strike(next_throws[idx + 1]):
+        total += calculate_second_strike_bonus(next_throws, idx)
+    else:
+        total = sum(next_throws[idx + 1])
+
+    return total
+
+def calculate_strike_bonus(next_throws : list, idx : int):
+    total = 0
+
+    if is_strike_at_last_frame(idx):
+        total = sum(next_throws[idx][1:])
+    else:
+        total = calculate_strike_bonus_at_regular_frame(next_throws, idx)
+
+    return total
+
+def calculate_spare_bonus(next_throws : list, idx : int):
+    total = 0
+
+    try:
+        total = next_throws[idx + 1][0]
+    except:
+        total = next_throws[idx][2]
+
+    return total
+
+def calculate_bonus(next_throws : list, idx : int, strike : bool):
+    total = 0
+
+    if strike:
+        total = calculate_strike_bonus(next_throws, idx)
+    else:
+        total = calculate_spare_bonus(next_throws, idx)
+
+    return total
 
 def bowling_score(scores : list):
     '''
@@ -30,8 +71,7 @@ def bowling_score(scores : list):
     total = 0
     for idx, score in enumerate(scores):
         if is_strike_or_spare(score):
-            if is_strike(score): total += handle_strike(scores, idx)
-            else: total += handle_spare(scores, idx)
+            total += STRIKE_OR_SPARE + calculate_bonus(scores, idx, is_strike(score))
         else: total += sum(score)
 
     return total
