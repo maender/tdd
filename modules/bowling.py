@@ -2,15 +2,13 @@ is_strike_or_spare = lambda x : sum(x) == 10
 is_strike = lambda x : x[0] == 10
 
 def handle_strike(scores: list, frame: int):
-    try:
-        if is_strike(scores[frame+1]):
-            if frame == 8:
-                return 20 + scores[frame+2][0] + scores[frame+2][1]
-            else:
-                return 20 + scores[frame+2][0]
+    if frame == 9: return sum(scores[frame])
+    elif frame == 8: return 10 + scores[frame + 1][0] + scores[frame + 1][1]
+    else:
+        if is_strike(scores[frame + 1]):
+            return 20 + scores[frame + 2][0]
         else:
             return 10 + sum(scores[frame + 1])
-    except: return sum(scores[frame])
 
 def handle_spare(scores: list, frame: int):
     try: return 10 + scores[frame+1][0]

@@ -53,6 +53,11 @@ def test_GameWith2StrickesInARowAtBegin():
 
 def test_GameWith2StrickesInARowAtEnd():
     frames = [[1, 0] for x in range(10)]
-    frames[-1] = [10, 0]
-    frames[-2] = [10, 0, 0]
+    frames[-2] = [10, 0]
+    frames[-1] = [10, 0, 0]
     assert bowling_score(frames) == 38
+
+def test_GameWithOnlyStrikes():
+    frames = [[10, 0] for x in range(10)]
+    frames[-1] = [10, 10, 10]
+    assert bowling_score(frames) == 300
