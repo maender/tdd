@@ -16,3 +16,4 @@ Tests à faire : partie avec que des lancers à 0
 def test_emptyGame():
     scores = [(0, 0) for x in range(10)]
     assert bowling_score(scores) == 0
+    
