@@ -4,6 +4,7 @@ LAST_FRAME_ONLY_STRIKES = (10, 10, 10)
 STRIKE_SCORE = 10
 STRIKE_OR_SPARE_SCORE = 10
 
+end_of_unfinished_game = lambda x, idx : len(x) < 10 and idx == len(x) - 1
 is_strike_or_spare = lambda x, idx : idx < 9 and sum(x) == 10
 is_strike = lambda x : x[0] == 10
 
@@ -62,7 +63,9 @@ def bowling_score(frames : list):
 
     total = 0
     for idx, frame in enumerate(frames):
-        if is_strike_or_spare(frame, idx):
+        if end_of_unfinished_game(frames, idx):
+            break
+        elif is_strike_or_spare(frame, idx):
             total += STRIKE_OR_SPARE_SCORE + calculate_bonus(frames, idx, is_strike(frame))
         else: total += sum(frame)
 

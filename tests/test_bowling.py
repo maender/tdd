@@ -59,9 +59,9 @@ def test_gameWithOnlyStrikes():
     assert bowling_score(frames) == 300
 
 def test_notCompletedGame():
-    frames = [(10, 0), (3, 2), (5, 4), (1, 3)]
-    assert bowling_score(frames) == 33
-    assert best_possible_score(frames) == 213
+    frames = [(10, 0), (3, 2), (5, 4), (10, 0)]
+    assert bowling_score(frames) == 29
+    assert best_possible_score(frames) == 239
 
 def test_fromRandomGame():
     frames = [(7, 1), (5, 4), (5, 2), (6, 4), (4, 1), (8, 1), (2, 8), (0, 1), (7, 0), (10, 10, 9)]
