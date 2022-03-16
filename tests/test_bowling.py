@@ -1,6 +1,7 @@
 import pytest
 from modules.bowling import bowling_score
 
+STRIKE = (10, 0)
 
 '''
 Cas limites :   spare au dernier lancer
@@ -33,7 +34,7 @@ def test_gameWithOneSpareAtLastFrame():
 
 def test_gameWithOneStrikeAtFirstFrame():
     frames = [(1, 0) for x in range(10)]
-    frames[0] = (10, 0)
+    frames[0] = STRIKE
     assert bowling_score(frames) == 20
 
 def test_gameWithOneStrikeAtLastFrame():
@@ -53,12 +54,12 @@ def test_gameWith2StrickesInARowAtBegin():
 
 def test_gameWith2StrickesInARowAtEnd():
     frames = [(1, 0) for x in range(10)]
-    frames[-2] = (10, 0)
+    frames[-2] = STRIKE
     frames[-1] = (10, 0, 0)
     assert bowling_score(frames) == 38
 
 def test_gameWithOnlyStrikes():
-    frames = [(10, 0) for x in range(10)]
+    frames = [STRIKE for x in range(10)]
     frames[-1] = (10, 10, 10)
     assert bowling_score(frames) == 300
 
