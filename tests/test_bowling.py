@@ -4,14 +4,9 @@ from modules.bowling import bowling_score
 STRIKE = (10, 0)
 
 '''
-Cas limites :   spare au dernier lancer
-                strike au dernier ou avant dernier lancer
-
-Tests à faire : partie avec que des lancers à 0
-                partie avec que des open frames
-                partie avec que des spares
-                partie avec que des strikes
-                mix sans puis avec spare / strike à la fin
+Games are represented by a list of 10 tuples of 2 throws
+Strikes are represented by the (10, 0) tuple except for last frame
+because then you have 3 throws
 '''
 
 def test_emptyGame():
