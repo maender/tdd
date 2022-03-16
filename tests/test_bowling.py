@@ -14,52 +14,52 @@ Tests à faire : partie avec que des lancers à 0
 '''
 
 def test_emptyGame():
-    frames = [[0, 0] for x in range(10)]
+    frames = [(0, 0) for x in range(10)]
     assert bowling_score(frames) == 0
 
 def test_gameWith10Pts():
-    frames = [[1, 0] for x in range(10)]
+    frames = [(1, 0) for x in range(10)]
     assert bowling_score(frames) == 10
 
 def test_gameWithOneSpareAtFisrtFrame():
-    frames = [[1, 0] for x in range(10)]
-    frames[0] = [9, 1]
+    frames = [(1, 0) for x in range(10)]
+    frames[0] = (9, 1)
     assert bowling_score(frames) == 20
 
 def test_gameWithOneSpareAtLastFrame():
-    frames = [[1, 0] for x in range(10)]
-    frames[-1] = [9, 1, 0]
+    frames = [(1, 0) for x in range(10)]
+    frames[-1] = (9, 1, 0)
     assert bowling_score(frames) == 19
 
 def test_gameWithOneStrikeAtFirstFrame():
-    frames = [[1, 0] for x in range(10)]
-    frames[0] = [10, 0]
+    frames = [(1, 0) for x in range(10)]
+    frames[0] = (10, 0)
     assert bowling_score(frames) == 20
 
 def test_gameWithOneStrikeAtLastFrame():
-    frames = [[1, 0] for x in range(10)]
-    frames[-1] = [10, 0, 0]
+    frames = [(1, 0) for x in range(10)]
+    frames[-1] = (10, 0, 0)
     assert bowling_score(frames) == 19
 
 def test_gameWithOnlySpares():
-    frames = [[9, 1] for x in range(10)]
-    frames[-1] = [9, 1, 1]
+    frames = [(9, 1) for x in range(10)]
+    frames[-1] = (9, 1, 1)
     assert bowling_score(frames) == 182
 
 def test_gameWith2StrickesInARowAtBegin():
-    frames = [[1, 0] for x in range(10)]
-    frames[0] = frames[1] = [10,0]
+    frames = [(1, 0) for x in range(10)]
+    frames[0] = frames[1] = (10,0)
     assert bowling_score(frames) == 40
 
 def test_gameWith2StrickesInARowAtEnd():
-    frames = [[1, 0] for x in range(10)]
-    frames[-2] = [10, 0]
-    frames[-1] = [10, 0, 0]
+    frames = [(1, 0) for x in range(10)]
+    frames[-2] = (10, 0)
+    frames[-1] = (10, 0, 0)
     assert bowling_score(frames) == 38
 
 def test_gameWithOnlyStrikes():
-    frames = [[10, 0] for x in range(10)]
-    frames[-1] = [10, 10, 10]
+    frames = [(10, 0) for x in range(10)]
+    frames[-1] = (10, 10, 10)
     assert bowling_score(frames) == 300
 
 def test_fromRandomGame():
