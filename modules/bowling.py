@@ -9,25 +9,22 @@ is_strike_or_spare = lambda x, idx : idx < 9 and sum(x) == 10
 is_strike = lambda x : x[0] == 10
 next_2_throws = lambda x, idx : x[idx + 1: idx + 3]
 
-def calculate_second_strike_bonus(next_throws : list, idx : int):
-    total = 0
+is_strike_at_last_frame = lambda frame, idx : frame[0] == 10 and idx == 9
+is_strike_new = lambda throw, chance, frame : throw == 10 and chance == 0 and frame <= 9
 
-    try:
-        total = STRIKE_SCORE + next_throws[idx + 2][0]
-    except:
-        total = STRIKE_SCORE + next_throws[idx + 1][1]
+# def calculate_second_strike_bonus(next_throws : list, idx : int):
+#     total = 0
 
-    return total
+#     try:
+#         total = STRIKE_SCORE + next_throws[idx + 2][0]
+#     except:
+#         total = STRIKE_SCORE + next_throws[idx + 1][1]
 
-def calculate_strike_bonus(next_throws : list, idx : int):
-    total = 0
+#     return total
 
-    if is_strike(next_throws[idx + 1]):
-        total += calculate_second_strike_bonus(next_throws, idx)
-    else:
-        total = sum(next_throws[idx + 1])
-
-    return total
+def calculate_strike_bonus(next_throws : list):
+    print(next_throws)
+    return sum(next_throws)
 
 def calculate_spare_bonus(next_throws : list, idx : int):
     total = 0
@@ -39,13 +36,13 @@ def calculate_spare_bonus(next_throws : list, idx : int):
 
     return total
 
-def calculate_bonus(next_throws : list, idx : int, strike : bool, throw_list : list = None):
+def calculate_bonus(next_throws : list, idx : int, strike : bool):
     total = 0
 
-    if strike:
-        total = calculate_strike_bonus(next_throws, idx)
-    else:
-        total = calculate_spare_bonus(next_throws, idx)
+    # if strike:
+    #     total = calculate_strike_bonus(next_throws, idx)
+    # else:
+    total = calculate_spare_bonus(next_throws, idx)
 
     return total
 
@@ -96,25 +93,25 @@ def bowling_score(throws : list):
     frame = 0
     chance = 0
     for idx, throw in enumerate(throws):
-        if throw == 10 and chance == 0:
-            totalStrikes += STRIKE_SCORE + calculate_strike_bonus(None, None, True, next_2_throws(throws, idx))
+        if is_strike_new(throw, chance, frame):
+            totalStrikes += STRIKE_SCORE + calculate_strike_bonus(next_2_throws(throws, idx))
             frame += 1
         elif chance == 1:
             frame += 1
             chance = 0
-            pass
-        
-            
+        else:
+            chance += 1
 
     for idx, frame in enumerate(frames):
         if is_strike_or_spare(frame, idx):
             if end_of_unfinished_game(frames, idx):
                 break
-            total += STRIKE_OR_SPARE_SCORE + calculate_bonus(frames, idx, is_strike(frame))
-        else:
+            if not is_strike(frame):
+                total += STRIKE_OR_SPARE_SCORE + calculate_bonus(frames, idx, is_strike(frame))
+        elif not is_strike_at_last_frame(frame, idx):
             total += sum(frame)
 
-    return total
+    return total + totalStrikes
 
 def best_possible_score(frames : list):
     for i in range(len(frames) + 1, 10):
