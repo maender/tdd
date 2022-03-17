@@ -48,7 +48,7 @@ def test_GameWithOnlySpares():
 
 def test_GameWith2StrickesInARowAtBegin():
     frames = [[1, 0] for x in range(10)]
-    frames[0] = frames[1] = [10,0]
+    frames[0] = frames[1] = [10, 0]
     assert bowling_score(frames) == 40
 
 def test_GameWith2StrickesInARowAtEnd():
