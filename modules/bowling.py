@@ -5,8 +5,7 @@ FIRST_THROW = 0
 LAST_BONUS_THROW = 2
 
 def extra_points(scores: list):
-    if sum(scores) == STRIKE:
-        return True
+    return sum(scores) == STRIKE
 
 def strike_in_a_row(scores: list, frame: int):
     return scores[frame + 1][FIRST_THROW] == STRIKE
@@ -48,6 +47,9 @@ def bowling_score(scores : list):
     '''
 
     total = 0
+
+    print(scores)
+
     for frame, score in enumerate(scores):
         if extra_points(score):
             if score[FIRST_THROW] == STRIKE:
